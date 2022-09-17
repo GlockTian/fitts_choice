@@ -10,20 +10,20 @@ export default function DndTesting() {
   const [position, setPosition] = useState(0);
 
   const updateSelection = (index, item) => {
-    console.log(index);
+    // mocking for answers
     setAnswer(item);
   };
 
   return (
     <div>
-      <>1 + 1等于多少</>
+      <>1 + 1 = ?</>
       <DndProvider backend={HTML5Backend}>
-        <div className="flex flex-row z-40">
+        <div className="z-40 flex flex-row">
           <DropSection onUpdateSelection={updateSelection} size={size} />
         </div>
         <div style={{ height: position + "px" }} />
         <div className="mt-2">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 ">
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 ">
             {allOptions.map((item, index) => (
               <React.Fragment key={index}>
                 <div className="p-4">
@@ -34,21 +34,21 @@ export default function DndTesting() {
           </div>
         </div>
       </DndProvider>
-      <>size</>
+      <div>size:</div>
       <input onChange={(e) => setSize(e.target.value)} />
-      <>pos</>
+      <div>pos:</div>
       <input onChange={(e) => setPosition(e.target.value)} />
     </div>
   );
 }
 
 function DropSection({ onUpdateSelection, size }) {
+  // support multiple dropping zone, can be removed
   return (
     <div className="mx-5">
       <div className="flex justify-center mt-3"></div>
       <div className="h-2" />
-
-      <div className="flow flow-row w-40">
+      <div className="w-40 flow flow-row">
         <div className="flex flex-row gap-5">
           <Dustbin onUpdateSelection={onUpdateSelection} size={size} />
         </div>
@@ -58,10 +58,12 @@ function DropSection({ onUpdateSelection, size }) {
 }
 
 function Box({ content, index }) {
+  // dragging triggers at box
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "box",
     item: { content, index },
     end: (item, monitor) => {
+      // dropping parameters
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
         // alert(`You dropped ${item.name} into ${dropResult.name}!`)
@@ -72,6 +74,7 @@ function Box({ content, index }) {
       handlerId: monitor.getHandlerId(),
     }),
   }));
+
   if (!isDragging) {
     return (
       <div ref={drag} data-testid={`box`}>
@@ -84,7 +87,7 @@ function Box({ content, index }) {
       </div>
     );
   } else {
-    //place holder prevent collapse
+    //placeholder prevent collapse
     return <div style={{ width: 150, height: 150 }} />;
   }
 }
@@ -92,6 +95,7 @@ function Box({ content, index }) {
 function Dustbin({ onUpdateSelection, size }) {
   const [id, setId] = useState("");
   const [content, setContent] = useState("");
+  // targeting triggers
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "box",
     drop: (d) => {
@@ -115,7 +119,7 @@ function Dustbin({ onUpdateSelection, size }) {
         }}
         className="bg-blue-300 "
       >
-        <div className="w-full h-full flex justify-center items-center">
+        <div className="flex items-center justify-center w-full h-full">
           {content}
         </div>
         <button
