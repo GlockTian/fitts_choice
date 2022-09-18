@@ -1,7 +1,7 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import fsPromises from 'fs/promises';
-import path from 'path'
-import getConfig from 'next/config'
+import path from 'path';
+import getConfig from 'next/config';
 
 export default function Test(props){
     const questions = props.questions;
