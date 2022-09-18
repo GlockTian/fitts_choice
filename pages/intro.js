@@ -10,7 +10,7 @@ export default function IntroFittsLaw() {
   const [buttonHeight, setHeight] = useState(0);
   const [buttonWidth, setWidth] = useState(0);
   const [dis,setDistance] = useState(0);
-  const [fittsOn, setOn] = useState(true)
+  const [fittsOn, setOn] = useState(false)
   useEffect(() => {
     const updateMousePosition = (ev) => {
       if (typeof window != "undefined" ) {
@@ -27,7 +27,6 @@ export default function IntroFittsLaw() {
           ev.clientX,
           ev.clientY
         ))
-        console.log(buttonX)
        }
     };
 
@@ -68,40 +67,29 @@ export default function IntroFittsLaw() {
         <button
         id="element"
         className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white truncate drop-shadow-l bg-sky-500 border-sky-500 rounded-2xl"
-        style={{width: dis+'px', minWidth: '120px',minHeight:'90px', maxWidth:'55%',maxHeight:'90px'}}
+        style={{width: dis+'px',height: dis+'px', minWidth: '235px',minHeight:'90px', maxWidth:'55%',maxHeight:'90px'}}
         
       >
-        This is going to be a button
+        This is going to be a dynamic button
       </button>:
       <button
       id="element"
       className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white truncate drop-shadow-l bg-sky-500 border-sky-500 rounded-2xl"
       style={{ minWidth: '120px',minHeight:'90px', maxWidth:'55%',maxHeight:'90px'}}
     >
-      This is going to be a button
+      This is going to be a fixed button
     </button>}
 
     <button
       id="element"
-      className="pt-5 pb-5 mt-10 text-white truncate drop-shadow-l bg-sky-500 border-sky-500 rounded-2xl"
+      className="pt-5 pb-5 mt-5 text-white truncate drop-shadow-l bg-sky-500 border-sky-500 rounded-2xl"
       onClick={() => setOn(!fittsOn)}
     >
       Toggle
     </button>
       
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+    
     </div>
   );
 }
