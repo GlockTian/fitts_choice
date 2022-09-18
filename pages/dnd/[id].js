@@ -8,14 +8,16 @@ import { DragPreviewImage, useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function Dnd(props) {
-    const allOptions = [1, 2, 3, 4];
-  const [answer, setAnswer] = useState(0);
-  const [size, setSize] = useState(150);
-  const [position, setPosition] = useState(0);
+    
   const router = useRouter();
     const { id } = router.query;
     const questions = props.questions;
-    const num = parseInt(id,10)-1
+    const num = parseInt(id,10)-1;
+    const allOptions = [questions[num].A, questions[num].B, questions[num].C, questions[num].D];
+  const [answer, setAnswer] = useState(0);
+  const [size, setSize] = useState(150);
+  const [position, setPosition] = useState(0);
+  const next = "/dnd/"+questions[num].nextId.toString();
 
   
   const updateSelection = (index, item) => {
@@ -40,6 +42,7 @@ export default function Dnd(props) {
                 </div>
               </React.Fragment>
             ))}
+             
           </div>
         </div>
       </DndProvider>
@@ -47,6 +50,9 @@ export default function Dnd(props) {
       <input onChange={(e) => setSize(e.target.value)} />
       <div>pos:</div>
       <input onChange={(e) => setPosition(e.target.value)} />
+      <Link href={{pathname :next}}>
+                <a>Next question!</a>
+              </Link>
     </div>
   );
 }
