@@ -4,7 +4,8 @@ import path from 'path';
 import getConfig from 'next/config';
 import Link from 'next/link';
 import { useState } from 'react';
-import { setUncaughtExceptionCaptureCallback } from 'process';
+import { useRouter } from 'next/router';
+
 
 
 export default function Test(props){
@@ -34,7 +35,6 @@ export default function Test(props){
 }
 
 export async function getStaticProps() {
-  const { serverRuntimeConfig } = getConfig()
   const relativeToPub = 'question';
   const dir = path.resolve('./public', relativeToPub);
   const filePath = path.join(dir,'questions.json')
