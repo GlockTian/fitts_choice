@@ -2,25 +2,35 @@ import Head from 'next/head';
 import fsPromises from 'fs/promises';
 import path from 'path';
 import getConfig from 'next/config';
+import Link from 'next/link';
+import { useState } from 'react';
+import { setUncaughtExceptionCaptureCallback } from 'process';
+
 
 export default function Test(props){
     const questions = props.questions;
+    const [index,setindex]=useState(0);
+    const incrementCount = param => e => {
+        setindex(param-1);
+
+    }
     return (
       <div style={{ padding: 30 }}>
         <Head>
           <title>Question display</title>
         </Head>
         <div>
-          {questions.map(question =>
-            <div
-              key={question.id}
-              style={{ padding: 20, borderBottom: '1px solid #ccc' }}>
-              <h2>{question.title}</h2>
-              <p>{question.answer}</p>
-            </div>)}
+              
+              <h2>{questions[index].id}.{" "}{questions[index].title}</h2>
+              <h3>A.{questions[index].A}{" "}{" "}B.{questions[index].B}</h3>
+              <h3>C.{questions[index].C}{" "}{" "}D.{questions[index].D}</h3>
+              <p>{questions[index].answer}</p>
+              <button onClick={incrementCount(questions[index].nextId)}>Next</button>
+            
         </div>
       </div>
     )
+    
 }
 
 export async function getStaticProps() {
