@@ -11,6 +11,12 @@ export default function IntroFittsLaw() {
   const [buttonWidth, setWidth] = useState(0);
   const [dis,setDistance] = useState(0);
   const [fittsOn, setOn] = useState(false)
+//   useEffect(() => {
+//     if (typeof window != "undefined" ) {
+//       window.document.body.style.overflow = 'hidden';
+//       return ()=> document.body.style.overflow = 'unset';
+//      }
+//  }, []);
   useEffect(() => {
     const updateMousePosition = (ev) => {
       if (typeof window != "undefined" ) {
@@ -42,15 +48,15 @@ export default function IntroFittsLaw() {
       {/* Page */}
       <main className={styles.main}>
         {/* Card */}
-        <div className="w-4/5 max-w-screen-xl bg-white h-3/5  rounded-[60px] drop-shadow-[0px_8px_10px_rgba(0,0,0,0.5)]">
+        <div className="w-4/5 max-w-screen-xl bg-white  rounded-[60px] drop-shadow-[0px_8px_10px_rgba(0,0,0,0.5)]">
           {/* Image */}
           <div className="w-full bg-white h-full min-h-[60%] rounded-[60px] min-w-[60%]">
             <Image
               src="/intro.png"
               alt="Fitts Law Image"
               layout="responsive"
-              width={1069}
-              height={723}
+              width={969}
+              height={623}
             />
           </div>
         </div>
@@ -67,7 +73,7 @@ export default function IntroFittsLaw() {
         <button
         id="element"
         className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white truncate drop-shadow-l bg-sky-500 border-sky-500 rounded-2xl"
-        style={{width: dis+'px',height: dis+'px', minWidth: '235px',minHeight:'90px', maxWidth:'55%',maxHeight:'90px'}}
+        style={{width: dis/2.5+'px',height: dis/1.5+'px', minWidth: '235px',minHeight:'90px', maxWidth:'55%', maxHeight:'300px'}}
         
       >
         This is going to be a dynamic button
