@@ -75,7 +75,7 @@ export default function IntroFittsLaw() {
         {/* Card */}
         <div className="w-4/5 max-w-screen-xl bg-white  rounded-[60px] drop-shadow-[0px_8px_10px_rgba(0,0,0,0.5)]">
           {/* Image */}
-          <div className="w-full bg-white h-full min-h-[60%] rounded-[60px] min-w-[60%]">
+          <div className="p-3 w-full bg-white h-full min-h-[60%] rounded-[60px] min-w-[60%]">
             <Image
               src="/intro.png"
               alt="Fitts Law Image"
