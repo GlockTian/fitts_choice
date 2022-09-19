@@ -19,12 +19,21 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
+    color: black;
+  }
+  button, [type='button'], [type='reset'], [type='submit'] {
+    background: #2563EB !important;
+  }
+}
+
+@layer components {
+  .primary{
+    background: #2563EB !important;
     color: white;
-    background: black;
   }
 }
