@@ -12,7 +12,7 @@ export default function Dnd(props) {
   const router = useRouter();
     const { id } = router.query;
     const questions = props.questions;
-    const num = parseInt(id,10)-1;
+    const num = parseInt(id,10);
     const allOptions = [questions[num].A, questions[num].B, questions[num].C, questions[num].D];
   const [answer, setAnswer] = useState(0);
   const [size, setSize] = useState(150);
