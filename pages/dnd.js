@@ -6,30 +6,42 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function DndTesting() {
   const allOptions = [1, 2, 3, 4];
-  const [answer, setAnswer] = useState(0);
-  const [size, setSize] = useState(150);
+
+  // index of answer 0 - 3
+  const [answer, setAnswer] = useState(-1);
+
+  const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
+
   const [openedSetting, setOpenedSetting] = useState(false);
 
   const updateSelection = (index, item) => {
     // mocking for answers
-    setAnswer(item);
+    setAnswer(index);
   };
+
+  const questionTitle = "1 + 1 = ?";
 
   return (
     <div>
-      <>1 + 1 = ?</>
+      <div className="my-10 text-3xl font-bold text-center">
+        Question: {questionTitle}
+      </div>
       <DndProvider backend={HTML5Backend}>
-        <div className="z-40 flex flex-row">
+        <div className="flex justify-center w-full">
           <DropSection onUpdateSelection={updateSelection} size={size} />
         </div>
-        <div style={{ height: position + "px" }} />
+        <div style={{ height: position * 5 + "px" }} />
         <div className="mt-2">
-          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 ">
+          <div className="flex justify-center">
             {allOptions.map((item, index) => (
               <React.Fragment key={index}>
-                <div className="p-4">
-                  <Box index={index} content={item} />
+                <div className="p-5">
+                  <Box
+                    index={index}
+                    content={item}
+                    isAvailable={index !== answer}
+                  />
                 </div>
               </React.Fragment>
             ))}
@@ -37,20 +49,36 @@ export default function DndTesting() {
         </div>
       </DndProvider>
 
-      <Modal opened={openedSetting} onClose={() => setOpenedSetting(false)} title="Setting">
-        <div className="flex flex-row gap-5 mt-5 items-center">
+      <Modal
+        opened={openedSetting}
+        onClose={() => setOpenedSetting(false)}
+        title="Setting"
+      >
+        <div className="flex flex-row items-center gap-5 mt-5">
           <div>size</div>
-          <Slider labelAlwaysOn defaultValue={[20, 60]} className="w-1/2 " />
+          <Slider
+            labelAlwaysOn
+            value={size}
+            onChange={setSize}
+            className="w-1/2 "
+          />
         </div>
         {/* tailwind center horizontally and vertically  */}
-        <div className="flex flex-row gap-5 mt-5 items-center">
+        <div className="flex flex-row items-center gap-5 mt-5">
           <p>pos:</p>
-          <Slider labelAlwaysOn defaultValue={[20, 60]} className="w-1/2 " />
+          <Slider
+            labelAlwaysOn
+            value={position}
+            onChange={setPosition}
+            className="w-1/2 "
+          />
         </div>
       </Modal>
 
       <Group position="center">
-        <Button className="primary" onClick={() => setOpenedSetting(true)}>Setting</Button>
+        <Button className="primary" onClick={() => setOpenedSetting(true)}>
+          Setting
+        </Button>
       </Group>
     </div>
   );
@@ -60,18 +88,14 @@ function DropSection({ onUpdateSelection, size }) {
   // support multiple dropping zone, can be removed
   return (
     <div className="mx-5">
-      <div className="flex justify-center mt-3"></div>
-      <div className="h-2" />
-      <div className="w-40 flow flow-row">
-        <div className="flex flex-row gap-5">
-          <Dustbin onUpdateSelection={onUpdateSelection} size={size} />
-        </div>
+      <div className="flex flex-row gap-5">
+        <Dustbin onUpdateSelection={onUpdateSelection} size={size} />
       </div>
     </div>
   );
 }
 
-function Box({ content, index }) {
+function Box({ content, index, isAvailable }) {
   // dragging triggers at box
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "box",
@@ -89,12 +113,14 @@ function Box({ content, index }) {
     }),
   }));
 
-  if (!isDragging) {
+  const boxStyle = { width: 150, height: 90 };
+
+  if (!isDragging & isAvailable) {
     return (
       <div ref={drag} data-testid={`box`}>
         <div
-          className="z-50 flex items-center justify-center bg-gray-200"
-          style={{ width: 150, height: 150 }}
+          className="z-50 flex items-center justify-center text-3xl font-bold text-white bg-blue-600"
+          style={boxStyle}
         >
           {content}
         </div>
@@ -102,7 +128,7 @@ function Box({ content, index }) {
     );
   } else {
     //placeholder prevent collapse
-    return <div style={{ width: 150, height: 150 }} />;
+    return <div style={boxStyle} />;
   }
 }
 
@@ -123,30 +149,26 @@ function Dustbin({ onUpdateSelection, size }) {
     }),
   }));
   const isActive = canDrop && isOver;
+  const Clickable = content !== "" ? "button" : "div";
   return (
-    <div ref={content === "" ? drop : null} data-testid="dustbin">
+    <Clickable ref={content === "" ? drop : null} data-testid="dustbin">
       <div
         style={{
-          width: size + "px",
-          height: size + "px",
+          width: size * 5 + 50 + "px",
+          height: size * 5 + 50 + "px",
           backgroundColor: isActive ? "red" : canDrop && "green",
         }}
-        className="bg-blue-300 "
+        className="border-2 border-blue-600"
+        onClick={() => {
+          setId("");
+          setContent("");
+          onUpdateSelection(-1);
+        }}
       >
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex items-center justify-center w-full h-full text-3xl font-bold text-white">
           {content}
         </div>
-        <button
-          className="absolute"
-          onClick={() => {
-            setId("");
-            setContent("");
-            onUpdateSelection(id);
-          }}
-        >
-          ↩️
-        </button>
       </div>
-    </div>
+    </Clickable>
   );
 }
