@@ -54,8 +54,11 @@ export default function DndTesting() {
         onClose={() => setOpenedSetting(false)}
         title="Setting"
       >
-        <div className="flex flex-row items-center gap-5 mt-5">
-          <div>size</div>
+        <p className="text-sm text-gray-500">
+          Experiment with target size and distance!
+        </p>
+        <div className="flex flex-row items-center justify-between gap-5 mt-8">
+          <p className="font-semibold">Target Size</p>
           <Slider
             labelAlwaysOn
             value={size}
@@ -64,8 +67,8 @@ export default function DndTesting() {
           />
         </div>
         {/* tailwind center horizontally and vertically  */}
-        <div className="flex flex-row items-center gap-5 mt-5">
-          <p>pos:</p>
+        <div className="flex flex-row items-center justify-between gap-5 mt-5">
+          <p className="font-semibold">Target Distance</p>
           <Slider
             labelAlwaysOn
             value={position}
@@ -76,8 +79,13 @@ export default function DndTesting() {
       </Modal>
 
       <Group position="center">
-        <Button className="primary" onClick={() => setOpenedSetting(true)}>
-          Setting
+        <Button
+          color="gray"
+          radius="xl"
+          variant="outline"
+          onClick={() => setOpenedSetting(true)}
+        >
+          <div className="px-2 text-xl text-blue-500">Settings</div>
         </Button>
       </Group>
     </div>
@@ -165,9 +173,13 @@ function Dustbin({ onUpdateSelection, size }) {
           onUpdateSelection(-1);
         }}
       >
-        <div className="flex items-center justify-center w-full h-full text-3xl font-bold text-white">
-          {content}
-        </div>
+        {content === "" ? (
+          <div className="flex items-center justify-center w-full h-full text-3xl font-bold" />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full text-3xl font-bold text-white bg-blue-600">
+            {content}
+          </div>
+        )}
       </div>
     </Clickable>
   );

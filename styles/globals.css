@@ -26,9 +26,6 @@ a {
   body {
     color: black;
   }
-  button, [type='button'], [type='reset'], [type='submit'] {
-    background: #2563EB !important;
-  }
 }
 
 @layer components {
