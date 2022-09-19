@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Readex+Pro&display=swap" rel="stylesheet"></link>
+      <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500&display=swap" rel="stylesheet"></link>  
       </Head>
     <MantineProvider         
       withGlobalStyles
@@ -16,7 +16,9 @@ function MyApp({ Component, pageProps }) {
       theme={{
         colorScheme: 'light',
       }}>
+        <Navigation>
           <Component {...pageProps} />
+        </Navigation>
     </MantineProvider>
     </div>
   )
