@@ -27,7 +27,7 @@ export default function Dnd(props) {
 
   return (
     <div>
-      <h2>{questions[num].id}.{" "}{questions[num].title}</h2>
+      <h2>{num+1}.{" "}{questions[num].title}</h2>
       <DndProvider backend={HTML5Backend}>
         <div className="z-40 flex flex-row">
           <DropSection onUpdateSelection={updateSelection} size={size} />
