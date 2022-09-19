@@ -1,3 +1,4 @@
+import { Button, Group, Modal, RangeSlider, Slider } from "@mantine/core";
 import React from "react";
 import { useState } from "react";
 import { DragPreviewImage, useDrag, useDrop, DndProvider } from "react-dnd";
@@ -8,6 +9,7 @@ export default function DndTesting() {
   const [answer, setAnswer] = useState(0);
   const [size, setSize] = useState(150);
   const [position, setPosition] = useState(0);
+  const [openedSetting, setOpenedSetting] = useState(false);
 
   const updateSelection = (index, item) => {
     // mocking for answers
@@ -34,10 +36,22 @@ export default function DndTesting() {
           </div>
         </div>
       </DndProvider>
-      <div>size:</div>
-      <input onChange={(e) => setSize(e.target.value)} />
-      <div>pos:</div>
-      <input onChange={(e) => setPosition(e.target.value)} />
+
+      <Modal opened={openedSetting} onClose={() => setOpenedSetting(false)} title="Setting">
+        <div className="flex flex-row gap-5 mt-5 items-center">
+          <div>size</div>
+          <Slider labelAlwaysOn defaultValue={[20, 60]} className="w-1/2 " />
+        </div>
+        {/* tailwind center horizontally and vertically  */}
+        <div className="flex flex-row gap-5 mt-5 items-center">
+          <p>pos:</p>
+          <Slider labelAlwaysOn defaultValue={[20, 60]} className="w-1/2 " />
+        </div>
+      </Modal>
+
+      <Group position="center">
+        <Button className="primary" onClick={() => setOpenedSetting(true)}>Setting</Button>
+      </Group>
     </div>
   );
 }
