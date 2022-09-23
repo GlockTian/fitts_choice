@@ -6,6 +6,7 @@ import Link from 'next/link';
 import React, { useState } from "react";
 import { DragPreviewImage, useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Button, Group, Modal, RangeSlider, Slider } from '@mantine/core';
 
 export default function Dnd(props) {
     
@@ -14,9 +15,16 @@ export default function Dnd(props) {
     const questions = props.questions;
     const num = parseInt(id,10);
     const allOptions = [questions[num].A, questions[num].B, questions[num].C, questions[num].D];
-  const [answer, setAnswer] = useState(0);
-  const [size, setSize] = useState(150);
-  const [position, setPosition] = useState(0);
+
+
+    const [answer, setAnswer] = useState(-1);
+
+    const [size, setSize] = useState(20);
+    const [position, setPosition] = useState(0);
+  
+    const [openedSetting, setOpenedSetting] = useState(false);
+
+
   const next = "/dnd/"+questions[num].nextId.toString();
 
   
@@ -27,52 +35,105 @@ export default function Dnd(props) {
 
   return (
     <div>
-      <h2>{num+1}.{" "}{questions[num].title}</h2>
+
+      <div className="my-10 text-3xl font-bold text-center">
+        Question: {questions[num].title}
+      </div>
+
       <DndProvider backend={HTML5Backend}>
-        <div className="z-40 flex flex-row">
+        <div className="flex justify-center w-full">
+
           <DropSection onUpdateSelection={updateSelection} size={size} />
         </div>
-        <div style={{ height: position + "px" }} />
+        <div style={{ height: position * 5 + "px" }} />
+
         <div className="mt-2">
-          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 ">
-            {allOptions.map((item, index) => (
-              <React.Fragment key={index}>
-                <div className="p-4">
-                  <Box index={index} content={item} />
-                </div>
-              </React.Fragment>
-            ))}
-             
+          <div className="flex justify-center">
+              {allOptions.map((item, index) => (
+                <React.Fragment key={index}>
+                  <div className="p-5">
+                    <Box
+                      index={index}
+                      content={item}
+                      isAvailable={index !== answer}
+                    />
+                  </div>
+                </React.Fragment>
+              ))}
           </div>
         </div>
       </DndProvider>
-      <div>size:</div>
-      <input onChange={(e) => setSize(e.target.value)} />
-      <div>pos:</div>
-      <input onChange={(e) => setPosition(e.target.value)} />
-      <Link href={{pathname :next}}>
-                <a>Next question!</a>
-              </Link>
+
+
+      <Modal
+        opened={openedSetting}
+        onClose={() => setOpenedSetting(false)}
+        title="Setting"
+      >
+        <p className="text-sm text-gray-500">
+          Experiment with target size and distance!
+        </p>
+        <div className="flex flex-row items-center justify-between gap-5 mt-8">
+          <p className="font-semibold">Target Size</p>
+          <Slider
+            labelAlwaysOn
+            value={size}
+            onChange={setSize}
+            className="w-1/2 "
+          />
+        </div>
+        {/* tailwind center horizontally and vertically  */}
+        <div className="flex flex-row items-center justify-between gap-5 mt-5">
+          <p className="font-semibold">Target Distance</p>
+          <Slider
+            labelAlwaysOn
+            value={position}
+            onChange={setPosition}
+            className="w-1/2 "
+          />
+        </div>
+      </Modal>
+
+
+
+
+      <Group position="right">
+        <Button
+          color="gray"
+          radius="xl"
+          variant="outline"
+          onClick={() => setOpenedSetting(true)}
+        >
+          <div className="px-2 text-xl text-blue-500">Settings</div>
+        </Button>
+          <Button
+            radius="xl"
+            className='primary'
+            onClick={() => router.push(next)}
+          >
+            Next question!
+          </Button>
+
+      </Group>
     </div>
   );
 }
+
+
+
 
 function DropSection({ onUpdateSelection, size }) {
   // support multiple dropping zone, can be removed
   return (
     <div className="mx-5">
-      <div className="flex justify-center mt-3"></div>
-      <div className="h-2" />
-      <div className="w-40 flow flow-row">
-        <div className="flex flex-row gap-5">
-          <Dustbin onUpdateSelection={onUpdateSelection} size={size} />
-        </div>
+      <div className="flex flex-row gap-5">
+        <Dustbin onUpdateSelection={onUpdateSelection} size={size} />
       </div>
     </div>
   );
 }
 
-function Box({ content, index }) {
+function Box({ content, index, isAvailable }) {
   // dragging triggers at box
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "box",
@@ -90,12 +151,14 @@ function Box({ content, index }) {
     }),
   }));
 
-  if (!isDragging) {
+  const boxStyle = { width: 150, height: 90 };
+
+  if (!isDragging & isAvailable) {
     return (
       <div ref={drag} data-testid={`box`}>
         <div
-          className="z-50 flex items-center justify-center bg-gray-200"
-          style={{ width: 150, height: 150 }}
+          className="z-50 flex items-center justify-center text-3xl font-bold text-white bg-blue-600"
+          style={boxStyle}
         >
           {content}
         </div>
@@ -103,7 +166,7 @@ function Box({ content, index }) {
     );
   } else {
     //placeholder prevent collapse
-    return <div style={{ width: 150, height: 150 }} />;
+    return <div style={boxStyle} />;
   }
 }
 
@@ -124,33 +187,37 @@ function Dustbin({ onUpdateSelection, size }) {
     }),
   }));
   const isActive = canDrop && isOver;
+  const Clickable = content !== "" ? "button" : "div";
   return (
-    <div ref={content === "" ? drop : null} data-testid="dustbin">
+    <Clickable ref={content === "" ? drop : null} data-testid="dustbin">
       <div
         style={{
-          width: size + "px",
-          height: size + "px",
+          width: size * 5 + 50 + "px",
+          height: size * 5 + 50 + "px",
           backgroundColor: isActive ? "red" : canDrop && "green",
         }}
-        className="bg-blue-300 "
+        className="border-2 border-blue-600"
+        onClick={() => {
+          setId("");
+          setContent("");
+          onUpdateSelection(-1);
+        }}
       >
-        <div className="flex items-center justify-center w-full h-full">
-          {content}
-        </div>
-        <button
-          className="absolute"
-          onClick={() => {
-            setId("");
-            setContent("");
-            onUpdateSelection(id);
-          }}
-        >
-          ↩️
-        </button>
+        {content === "" ? (
+          <div className="flex items-center justify-center w-full h-full text-3xl font-bold" />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full text-3xl font-bold text-white bg-blue-600">
+            {content}
+          </div>
+        )}
       </div>
-    </div>
+    </Clickable>
   );
 }
+
+
+
+
 export async function getStaticPaths() {
     const relativeToPub = 'question';
     const dir = path.resolve('./public', relativeToPub);

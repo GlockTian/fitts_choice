@@ -25,7 +25,8 @@ export default function IntroFittsLaw() {
   //  }, []);
   useEffect(() => {
     const updateMousePosition = (ev) => {
-      if (typeof window != "undefined") {
+      if (typeof window != "undefined" 
+      && window.document.getElementById("element")) {
         var buttonAttr = window.document
           .getElementById("element")
           .getBoundingClientRect();
@@ -73,7 +74,10 @@ export default function IntroFittsLaw() {
               width: "auto",
               height:"20%"
             }}
-            onClick={()=>router.push("/")}
+            onClick={()=>{ 
+              setOn(false);
+              router.push("/");
+            }}
             leftIcon={<Check size={20} />}
           >
             Yes
