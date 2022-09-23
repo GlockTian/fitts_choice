@@ -108,9 +108,8 @@ export default function Dnd(props) {
         </Button>
           <Button
             radius="xl"
-            variant='outline'
+            className='primary'
             onClick={() => router.push(next)}
-            className="px-2 text-xl text-blue-500"
           >
             Next question!
           </Button>

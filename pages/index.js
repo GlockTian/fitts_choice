@@ -14,7 +14,7 @@ export default function Home() {
       <p className={styles.subtitle}>An experiential learning activity for Fitts' Law</p>
       <Space h={40} />
       <Group position="center">
-        <Button className="primary" radius={20} onClick={() => router.push("/dnd")}>Start Now</Button>
+        <Button className="primary" radius={20} onClick={() => router.push("/dnd/0")}>Start Now</Button>
       </Group>
       <Space h={60}  />
 
