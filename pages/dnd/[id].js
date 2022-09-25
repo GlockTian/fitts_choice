@@ -1,69 +1,94 @@
-
-import fsPromises from 'fs/promises';
-import path from 'path';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useState } from "react";
+import fsPromises from "fs/promises";
+import path from "path";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import { DragPreviewImage, useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Button, Group, Modal, RangeSlider, Slider } from '@mantine/core';
+import { Button, Group, Modal, RangeSlider, Slider } from "@mantine/core";
 
 export default function Dnd(props) {
-    
   const router = useRouter();
-    const { id } = router.query;
-    const questions = props.questions;
-    const num = parseInt(id,10);
-    const allOptions = [questions[num].A, questions[num].B, questions[num].C, questions[num].D];
+  const { id } = router.query;
+  const questions = props.questions;
+  const num = parseInt(id, 10);
+  const allOptions = [
+    questions[num].A,
+    questions[num].B,
+    questions[num].C,
+    questions[num].D,
+  ];
 
+  const [answer, setAnswer] = useState(-1);
 
-    const [answer, setAnswer] = useState(-1);
+  const [size, setSize] = useState(20);
+  const [position, setPosition] = useState(0);
 
-    const [size, setSize] = useState(20);
-    const [position, setPosition] = useState(0);
-  
-    const [openedSetting, setOpenedSetting] = useState(false);
+  const [openedSetting, setOpenedSetting] = useState(false);
 
+  const next = "/dnd/" + questions[num].nextId.toString();
 
-  const next = "/dnd/"+questions[num].nextId.toString();
-
-  
   const updateSelection = (index, item) => {
     // mocking for answers
     setAnswer(item);
   };
 
+  const [allTimes, setAllTimes] = useState([]);
+
+  const [totalDrag, setTotalDrag] = useState(0);
+  const increaseTotalDrag = () => setTotalDrag(totalDrag + 1);
+
+  const [errorDrag, setErrorDrag] = useState(0);
+  const increaseErrorDrag = () => setErrorDrag(errorDrag + 1);
+
+  const updateAverageTime = (time) => {
+    const oldAllTimes = [...allTimes];
+    oldAllTimes.push(time);
+    setAllTimes(oldAllTimes);
+  };
+
+  const average = (array) => array.reduce((a, b) => a + b) / array.length;
+
   return (
     <div>
-
+      <div
+        onClick={() => {
+          console.log(allTimes);
+          console.log(totalDrag);
+          console.log(errorDrag);
+        }}
+      >
+        haha
+      </div>
       <div className="my-10 text-3xl font-bold text-center">
         Question: {questions[num].title}
       </div>
 
       <DndProvider backend={HTML5Backend}>
         <div className="flex justify-center w-full">
-
           <DropSection onUpdateSelection={updateSelection} size={size} />
         </div>
         <div style={{ height: position * 5 + "px" }} />
 
         <div className="mt-2">
           <div className="flex justify-center">
-              {allOptions.map((item, index) => (
-                <React.Fragment key={index}>
-                  <div className="p-5">
-                    <Box
-                      index={index}
-                      content={item}
-                      isAvailable={index !== answer}
-                    />
-                  </div>
-                </React.Fragment>
-              ))}
+            {allOptions.map((item, index) => (
+              <React.Fragment key={index}>
+                <div className="p-5">
+                  <Box
+                    index={index}
+                    content={item}
+                    isAvailable={index !== answer}
+                    updateAverageTime={updateAverageTime}
+                    increaseTotalDrag={increaseTotalDrag}
+                    increaseErrorDrag={increaseErrorDrag}
+                  />
+                </div>
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </DndProvider>
-
 
       <Modal
         opened={openedSetting}
@@ -94,9 +119,6 @@ export default function Dnd(props) {
         </div>
       </Modal>
 
-
-
-
       <Group position="right">
         <Button
           color="gray"
@@ -106,21 +128,17 @@ export default function Dnd(props) {
         >
           <div className="px-2 text-xl text-blue-500">Settings</div>
         </Button>
-          <Button
-            radius="xl"
-            className='primary'
-            onClick={() => router.push(next)}
-          >
-            Next question!
-          </Button>
-
+        <Button
+          radius="xl"
+          className="primary"
+          onClick={() => router.push(next)}
+        >
+          Next question!
+        </Button>
       </Group>
     </div>
   );
 }
-
-
-
 
 function DropSection({ onUpdateSelection, size }) {
   // support multiple dropping zone, can be removed
@@ -133,29 +151,56 @@ function DropSection({ onUpdateSelection, size }) {
   );
 }
 
-function Box({ content, index, isAvailable }) {
+function Box({
+  content,
+  index,
+  isAvailable,
+  updateAverageTime,
+  increaseTotalDrag,
+  increaseErrorDrag,
+}) {
   // dragging triggers at box
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "box",
-    item: { content, index },
-    end: (item, monitor) => {
-      // dropping parameters
-      const dropResult = monitor.getDropResult();
-      if (item && dropResult) {
-        // alert(`You dropped ${item.name} into ${dropResult.name}!`)
-      }
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-      handlerId: monitor.getHandlerId(),
+  const [startTime, setStartTime] = useState(Date.now());
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "box",
+      item: { content, index },
+
+      end: (item, monitor) => {
+        increaseTotalDrag();
+        // dropping parameters
+        const dropResult = monitor.getDropResult();
+        if (item && dropResult) {
+          // console.log("对");
+          updateAverageTime(
+            Math.abs(
+              new Date(startTime).getTime() - new Date(Date.now()).getTime()
+            )
+          );
+        } else {
+          increaseErrorDrag();
+          // console.log("错");
+        }
+      },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+        handlerId: monitor.getHandlerId(),
+      }),
     }),
-  }));
+    [startTime]
+  );
 
   const boxStyle = { width: 150, height: 90 };
 
   if (!isDragging & isAvailable) {
     return (
-      <div ref={drag} data-testid={`box`}>
+      <div
+        ref={drag}
+        onDragStart={() => {
+          setStartTime(Date.now());
+        }}
+        data-testid={`box`}
+      >
         <div
           className="z-50 flex items-center justify-center text-3xl font-bold text-white bg-blue-600"
           style={boxStyle}
@@ -215,34 +260,27 @@ function Dustbin({ onUpdateSelection, size }) {
   );
 }
 
-
-
-
 export async function getStaticPaths() {
-    const relativeToPub = 'question';
-    const dir = path.resolve('./public', relativeToPub);
-    const filePath = path.join(dir,'questions.json')
-    const jsonData = await fsPromises.readFile(filePath);
-    const objectData = JSON.parse(jsonData);
-    const questions = objectData.questions;
+  const relativeToPub = "question";
+  const dir = path.resolve("./public", relativeToPub);
+  const filePath = path.join(dir, "questions.json");
+  const jsonData = await fsPromises.readFile(filePath);
+  const objectData = JSON.parse(jsonData);
+  const questions = objectData.questions;
 
   const paths = questions.map((question) => ({
     params: { id: question.id.toString() },
-  }))
+  }));
 
-  return { paths, fallback: false }
+  return { paths, fallback: false };
 }
 
-
 export async function getStaticProps() {
-  const relativeToPub = 'question';
-  const dir = path.resolve('./public', relativeToPub);
-  const filePath = path.join(dir,'questions.json')
+  const relativeToPub = "question";
+  const dir = path.resolve("./public", relativeToPub);
+  const filePath = path.join(dir, "questions.json");
   const jsonData = await fsPromises.readFile(filePath);
   const objectData = JSON.parse(jsonData);
 
-  return { props:  objectData  }
+  return { props: objectData };
 }
-
-
-
