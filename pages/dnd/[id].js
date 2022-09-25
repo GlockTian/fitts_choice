@@ -34,6 +34,8 @@ export default function Dnd(props) {
   };
 
   const [allTimes, setAllTimes] = useState([]);
+  const [allErrors,setAllErrors] = useState([]);
+  const [allDrags,setAllDrags] = useState([]);
 
   const [totalDrag, setTotalDrag] = useState(0);
   const increaseTotalDrag = () => setTotalDrag(totalDrag + 1);
@@ -46,8 +48,19 @@ export default function Dnd(props) {
     oldAllTimes.push(time);
     setAllTimes(oldAllTimes);
   };
+  const updateErrorRate = (errors) => {
+    const oldAllErrors = [...allErrors];
+    oldAllErrors.push(errors);
+    setAllErrors(oldAllErrors);
+  };
+  const updateAllDrags = (drags) => {
+    const oldAllDrags = [...allDrags];
+    oldAllDrags.push(drags);
+    setAllDrags(oldAllDrags);
+  }
 
-  const average = (array) => array.reduce((a, b) => a + b) / array.length;
+  const average = (array) => array.reduce((a, b) => a + b,0) / array.length;
+  const summ = (array) => array.reduce((a,b)=>a+b,0);
 
   return (
     <div>
@@ -80,6 +93,10 @@ export default function Dnd(props) {
                     content={item}
                     isAvailable={index !== answer}
                     updateAverageTime={updateAverageTime}
+                    updateErrorRate={updateErrorRate}
+                    updateAllDrags={updateAllDrags}
+                    totalDrag={totalDrag}
+                    errorDrag={errorDrag}
                     increaseTotalDrag={increaseTotalDrag}
                     increaseErrorDrag={increaseErrorDrag}
                   />
@@ -136,6 +153,10 @@ export default function Dnd(props) {
           Next question!
         </Button>
       </Group>
+      <Group>
+        <div>Average Time: {average(allTimes)/100} seconds</div>
+        <div>Error Rate: {(summ(allErrors)/summ(allDrags))*100}%</div>
+      </Group>
     </div>
   );
 }
@@ -156,6 +177,10 @@ function Box({
   index,
   isAvailable,
   updateAverageTime,
+  updateErrorRate,
+  updateAllDrags,
+  totalDrag,
+  errorDrag,
   increaseTotalDrag,
   increaseErrorDrag,
 }) {
@@ -177,6 +202,9 @@ function Box({
               new Date(startTime).getTime() - new Date(Date.now()).getTime()
             )
           );
+          updateAllDrags(totalDrag);
+          updateErrorRate(errorDrag);
+
         } else {
           increaseErrorDrag();
           // console.log("错");
