@@ -89,6 +89,7 @@ export default function Dnd(props) {
             labelAlwaysOn
             value={position}
             onChange={setPosition}
+            max = {80}
             className="w-1/2 "
           />
         </div>
