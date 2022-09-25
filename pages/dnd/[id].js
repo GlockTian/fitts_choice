@@ -194,7 +194,7 @@ function Dustbin({ onUpdateSelection, size }) {
         style={{
           width: size * 5 + 50 + "px",
           height: size * 5 + 50 + "px",
-          backgroundColor: isActive ? "red" : canDrop && "green",
+          backgroundColor: isActive ? "LightGreen" : canDrop ,
         }}
         className="border-2 border-blue-600"
         onClick={() => {
@@ -204,11 +204,14 @@ function Dustbin({ onUpdateSelection, size }) {
         }}
       >
         {content === "" ? (
-          <div className="flex items-center justify-center w-full h-full text-3xl font-bold" />
+          <div className="flex items-center justify-center w-full h-full text-xs font-bold">Drag the answer Here!</div>
         ) : (
           <div className="flex items-center justify-center w-full h-full text-3xl font-bold text-white bg-blue-600">
             {content}
           </div>
+        )}
+        {content === "" ? null : (
+          <div className='flex items-center justify-center pt-1 text-sm italic font-bold text-gray-500'>Click to unselect</div>
         )}
       </div>
     </Clickable>
