@@ -6,8 +6,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family:'Readex Pro', sans-serif !important;
 }
 
 a {
@@ -19,15 +18,14 @@ a {
   box-sizing: border-box;
 }
 
+
+
 @media (prefers-color-scheme: light) {
   html {
     color-scheme: light;
   }
   body {
     color: black;
-  }
-  button, [type='button'], [type='reset'], [type='submit'] {
-    background: #2563EB !important;
   }
 }
 
@@ -36,4 +34,23 @@ a {
     background: #2563EB !important;
     color: white;
   }
+
+  .text-primary{
+    color: #2563EB;
+  }
+
+  .bg-paper{
+    background: white !important;
+  }
+
+  .secondary{
+    background: #F9FAFB !important;
+    color: #2563EB;
+  }
+
+  .card{
+    @apply w-4/5 max-w-screen-xl bg-white rounded-[60px] drop-shadow-[0px_8px_10px_rgba(0,0,0,0.5)]
+  }
+
+
 }

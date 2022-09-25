@@ -3,9 +3,13 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
 import { Switch, Button, Modal, Center } from "@mantine/core";
-import { CircleCheck, Check, X } from "tabler-icons-react";
+import { CircleCheck, Check,X} from "tabler-icons-react";
+import { useRouter } from "next/router";
 
 export default function IntroFittsLaw() {
+
+  const router = useRouter()
+  
   // center point of the target
   const [buttonX, setButtonX] = useState(0);
   const [buttonY, setButtonY] = useState(0);
@@ -17,7 +21,8 @@ export default function IntroFittsLaw() {
 
   useEffect(() => {
     const updateMousePosition = (ev) => {
-      if (typeof window != "undefined") {
+      if (typeof window != "undefined" 
+      && window.document.getElementById("element")) {
         var buttonAttr = window.document
           .getElementById("element")
           .getBoundingClientRect();
@@ -64,6 +69,10 @@ export default function IntroFittsLaw() {
               width: "auto",
               height: "20%",
             }}
+            onClick={()=>{ 
+              setOn(false);
+              router.push("/");
+            }}
             leftIcon={<Check size={20} />}
           >
             Yes
@@ -85,7 +94,7 @@ export default function IntroFittsLaw() {
             />
           </div>
         </div>
-        <div className="w-4/5 max-w-screen-xl mt-10 text-2xl font-semibold text-center text-black">
+        <div className="w-4/5 max-w-screen-xl mt-10 text-center text-black">
           Fitts's law (often cited as Fitts' law) is a predictive model of human
           movement primarily used in human–computer interaction and ergonomics.
           <br />
@@ -145,6 +154,7 @@ export default function IntroFittsLaw() {
     </div>
   );
 }
+
 
 function calculateDistance(elemx, elemy, width, height, mouseX, mouseY) {
   var dis = Math.floor(
