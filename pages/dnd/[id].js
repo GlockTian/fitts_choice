@@ -71,7 +71,7 @@ export default function Dnd(props) {
           console.log(errorDrag);
         }}
       >
-        haha
+       
       </div>
       <div className="my-10 text-3xl font-bold text-center">
         Question: {questions[num].title}
