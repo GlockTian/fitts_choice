@@ -153,9 +153,9 @@ export default function Dnd(props) {
           Next question!
         </Button>
       </Group>
-      <Group>
-        <div>Average Time: {average(allTimes)/100} seconds</div>
-        <div>Error Rate: {(summ(allErrors)/summ(allDrags))*100}%</div>
+      <Group style={{position:"fixed",bottom:20}}>
+        <div className="text-xl">Average Time: {average(allTimes)/100} seconds</div>
+        <div className="text-xl">Error Rate: {(summ(allErrors)/summ(allDrags))*100}%</div>
       </Group>
     </div>
   );
