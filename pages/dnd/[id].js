@@ -204,10 +204,14 @@ function Box({
           );
           updateAllDrags(totalDrag);
           updateErrorRate(errorDrag);
+          console.log("total"+totalDrag);
+          console.log("error:"+errorDrag);
 
         } else {
           increaseErrorDrag();
-          // console.log("错");
+          
+          console.log("total:"+totalDrag);
+           console.log("error:"+errorDrag);
         }
       },
       collect: (monitor) => ({
