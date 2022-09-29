@@ -20,47 +20,30 @@ export default function Dnd(props) {
   ];
 
   const [answer, setAnswer] = useState(-1);
-
   const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
-
   const [openedSetting, setOpenedSetting] = useState(false);
-
   const next = "/dnd/" + questions[num].nextId.toString();
 
   const updateSelection = (index, item) => {
     // mocking for answers
     setAnswer(item);
   };
-
   const [allTimes, setAllTimes] = useState([]);
-  const [allErrors,setAllErrors] = useState([]);
-  const [allDrags,setAllDrags] = useState([]);
-
+ 
   const [totalDrag, setTotalDrag] = useState(0);
   const increaseTotalDrag = () => setTotalDrag(totalDrag + 1);
-
   const [errorDrag, setErrorDrag] = useState(0);
   const increaseErrorDrag = () => setErrorDrag(errorDrag + 1);
-
   const updateAverageTime = (time) => {
     const oldAllTimes = [...allTimes];
     oldAllTimes.push(time);
     setAllTimes(oldAllTimes);
   };
-  const updateErrorRate = (errors) => {
-    const oldAllErrors = [...allErrors];
-    oldAllErrors.push(errors);
-    setAllErrors(oldAllErrors);
-  };
-  const updateAllDrags = (drags) => {
-    const oldAllDrags = [...allDrags];
-    oldAllDrags.push(drags);
-    setAllDrags(oldAllDrags);
-  }
+  
 
   const average = (array) => array.reduce((a, b) => a + b,0) / array.length;
-  const summ = (array) => array.reduce((a,b)=>a+b,0);
+  
 
   return (
     <div>
@@ -93,8 +76,7 @@ export default function Dnd(props) {
                     content={item}
                     isAvailable={index !== answer}
                     updateAverageTime={updateAverageTime}
-                    updateErrorRate={updateErrorRate}
-                    updateAllDrags={updateAllDrags}
+                    
                     totalDrag={totalDrag}
                     errorDrag={errorDrag}
                     increaseTotalDrag={increaseTotalDrag}
@@ -155,7 +137,7 @@ export default function Dnd(props) {
       </Group>
       <Group style={{position:"fixed",bottom:20}}>
         <div className="text-xl">Average Time: {average(allTimes)/100} seconds</div>
-        <div className="text-xl">Error Rate: {(summ(allErrors)/summ(allDrags))*100}%</div>
+        <div className="text-xl">Error Rate: {(errorDrag/totalDrag)*100}%</div>
       </Group>
     </div>
   );
@@ -177,8 +159,6 @@ function Box({
   index,
   isAvailable,
   updateAverageTime,
-  updateErrorRate,
-  updateAllDrags,
   totalDrag,
   errorDrag,
   increaseTotalDrag,
@@ -202,8 +182,7 @@ function Box({
               new Date(startTime).getTime() - new Date(Date.now()).getTime()
             )
           );
-          updateAllDrags(totalDrag);
-          updateErrorRate(errorDrag);
+          
           console.log("total"+totalDrag);
           console.log("error:"+errorDrag);
 
