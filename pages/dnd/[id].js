@@ -176,21 +176,18 @@ function Box({
         // dropping parameters
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
-          // console.log("对");
+          
           updateAverageTime(
             Math.abs(
               new Date(startTime).getTime() - new Date(Date.now()).getTime()
             )
           );
           
-          console.log("total"+totalDrag);
-          console.log("error:"+errorDrag);
+      
 
         } else {
           increaseErrorDrag();
           
-          console.log("total:"+totalDrag);
-           console.log("error:"+errorDrag);
         }
       },
       collect: (monitor) => ({
