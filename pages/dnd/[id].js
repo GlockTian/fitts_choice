@@ -30,7 +30,7 @@ export default function Dnd(props) {
     setAnswer(item);
   };
   const [allTimes, setAllTimes] = useState([]);
- 
+
   const [totalDrag, setTotalDrag] = useState(0);
   const increaseTotalDrag = () => setTotalDrag(totalDrag + 1);
   const [errorDrag, setErrorDrag] = useState(0);
@@ -40,32 +40,27 @@ export default function Dnd(props) {
     oldAllTimes.push(time);
     setAllTimes(oldAllTimes);
   };
-  
 
-  const average = (array) => array.reduce((a, b) => a + b,0) / array.length;
-  
+  const average = (array) => array.reduce((a, b) => a + b, 0) / array.length;
+
   const round = (value, decimals) => {
     return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
   };
 
   return (
     <div>
-      <div
-        onClick={() => {
-          console.log(allTimes);
-          console.log(totalDrag);
-          console.log(errorDrag);
-        }}
-      >
-       
-      </div>
+      <Loading />
       <div className="my-10 text-3xl font-bold text-center">
         Question: {questions[num].title}
       </div>
 
       <DndProvider backend={HTML5Backend}>
         <div className="flex justify-center w-full">
-          <DropSection onUpdateSelection={updateSelection} size={size} />
+          <DropSection
+            onUpdateSelection={updateSelection}
+            size={size}
+            question={questions[num].title}
+          />
         </div>
         <div style={{ height: position * 5 + "px" }} />
 
@@ -79,7 +74,6 @@ export default function Dnd(props) {
                     content={item}
                     isAvailable={index !== answer}
                     updateAverageTime={updateAverageTime}
-                    
                     totalDrag={totalDrag}
                     errorDrag={errorDrag}
                     increaseTotalDrag={increaseTotalDrag}
@@ -106,7 +100,7 @@ export default function Dnd(props) {
             labelAlwaysOn
             value={size}
             onChange={setSize}
-            max = {60}
+            max={60}
             className="w-1/2 "
           />
         </div>
@@ -117,7 +111,7 @@ export default function Dnd(props) {
             labelAlwaysOn
             value={position}
             onChange={setPosition}
-            max = {50}
+            max={50}
             className="w-1/2 "
           />
         </div>
@@ -140,20 +134,57 @@ export default function Dnd(props) {
           Next question!
         </Button>
       </Group>
-      <Group style={{position:"fixed",bottom:20}}>
-        <div className="text-xl">Average Time: {round(average(allTimes)/100,2)||0} seconds</div>
-        <div className="text-xl">Error Rate: {round((errorDrag/totalDrag)*100,2)||0}%</div>
+      <Group style={{ position: "fixed", bottom: 20 }}>
+        <div className="text-xl">
+          Average Time: {round(average(allTimes) / 100, 2) || 0} seconds
+        </div>
+        <div className="text-xl">
+          Error Rate: {round((errorDrag / totalDrag) * 100, 2) || 0}%
+        </div>
       </Group>
     </div>
   );
 }
 
-function DropSection({ onUpdateSelection, size }) {
+function Loading() {
+  const router = useRouter();
+
+  const [pageLoading, setPageLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = () => {
+      setPageLoading(true);
+    };
+    const handleComplete = () => {
+      setPageLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+  }, [router]);
+
+  return pageLoading ? (
+    <div className="absolute flex flex-col items-center justify-center w-[99vw] h-[70vh] bg-white">
+      <div className="absolute flex items-center justify-center bg-blue-600 w-72 h-72 animate-spin">
+        <div className="w-56 h-56 bg-white" />
+      </div>
+    </div>
+  ) : (
+    <></>
+  );
+}
+
+function DropSection({ onUpdateSelection, size, question }) {
   // support multiple dropping zone, can be removed
   return (
     <div className="mx-5">
       <div className="flex flex-row gap-5">
-        <Dustbin onUpdateSelection={onUpdateSelection} size={size} />
+        <Dustbin
+          onUpdateSelection={onUpdateSelection}
+          size={size}
+          question={question}
+        />
       </div>
     </div>
   );
@@ -181,18 +212,13 @@ function Box({
         // dropping parameters
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
-          
           updateAverageTime(
             Math.abs(
               new Date(startTime).getTime() - new Date(Date.now()).getTime()
             )
           );
-          
-      
-
         } else {
           increaseErrorDrag();
-          
         }
       },
       collect: (monitor) => ({
@@ -228,7 +254,7 @@ function Box({
   }
 }
 
-function Dustbin({ onUpdateSelection, size }) {
+function Dustbin({ onUpdateSelection, size, question }) {
   const [id, setId] = useState("");
   const [content, setContent] = useState("");
   // targeting triggers
@@ -246,30 +272,36 @@ function Dustbin({ onUpdateSelection, size }) {
   }));
   const isActive = canDrop && isOver;
   const Clickable = content !== "" ? "button" : "div";
+
+  useEffect(() => {
+    setId("");
+    setContent("");
+    onUpdateSelection(-1);
+  }, [question]);
   return (
     <Clickable ref={content === "" ? drop : null} data-testid="dustbin">
       <div
         style={{
           width: size * 5 + 50 + "px",
           height: size * 5 + 50 + "px",
-          backgroundColor: isActive ? "LightGreen" : canDrop ,
+          backgroundColor: isActive ? "LightGreen" : canDrop,
         }}
         className="border-2 border-blue-600"
-        onClick={() => {
-          setId("");
-          setContent("");
-          onUpdateSelection(-1);
-        }}
+        onClick={() => clear()}
       >
         {content === "" ? (
-          <div className="flex items-center justify-center w-full h-full text-xs font-bold">Drag the answer Here!</div>
+          <div className="flex items-center justify-center w-full h-full text-xs font-bold">
+            Drag the answer Here!
+          </div>
         ) : (
           <div className="flex items-center justify-center w-full h-full text-3xl font-bold text-white bg-blue-600">
             {content}
           </div>
         )}
         {content === "" ? null : (
-          <div className='flex items-center justify-center pt-1 text-sm italic font-bold text-gray-500'>Click to unselect</div>
+          <div className="flex items-center justify-center pt-1 text-sm italic font-bold text-gray-500">
+            Click to unselect
+          </div>
         )}
       </div>
     </Clickable>
