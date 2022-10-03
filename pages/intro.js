@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Button, Modal, Center } from "@mantine/core";
 import { CircleCheck, Check,X} from "tabler-icons-react";
 import { useRouter } from "next/router";
+
 export default function IntroFittsLaw() {
 
   const router = useRouter()
@@ -17,12 +18,7 @@ export default function IntroFittsLaw() {
   const [dis, setDistance] = useState(0);
   const [fittsOn, setOn] = useState(false);
   const [opened, setOpened] = useState(false);
-  //   useEffect(() => {
-  //     if (typeof window != "undefined" ) {
-  //       window.document.body.style.overflow = 'hidden';
-  //       return ()=> document.body.style.overflow = 'unset';
-  //      }
-  //  }, []);
+
   useEffect(() => {
     const updateMousePosition = (ev) => {
       if (typeof window != "undefined" 
@@ -62,17 +58,16 @@ export default function IntroFittsLaw() {
         className="content-center"
       >
         <Center>
-        <div className="text-xl font-semibold text-center">
+          <div className="text-xl font-semibold text-center">
             Are you sure you want to return to the homepage?
           </div>
         </Center>
         <Center>
-          
           <Button
             className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white wrap drop-shadow-l primary rounded-2xl center"
             style={{
               width: "auto",
-              height:"20%"
+              height: "20%",
             }}
             onClick={()=>{ 
               setOn(false);
@@ -83,15 +78,13 @@ export default function IntroFittsLaw() {
             Yes
           </Button>
         </Center>
-       
-
       </Modal>
       {/* Page */}
       <main className={styles.main}>
         {/* Card */}
-        <div className="w-4/5 max-w-screen-xl bg-white  rounded-[60px] drop-shadow-[0px_8px_10px_rgba(0,0,0,0.5)]">
+        <div className="w-2/5 max-w-screen-xl bg-white  rounded-[60px] drop-shadow-[0px_8px_10px_rgba(0,0,0,0.5)]">
           {/* Image */}
-          <div className="w-full bg-white h-full min-h-[60%] rounded-[60px] min-w-[60%]">
+          <div className="p-3 w-full bg-white h-full min-h-[60%] rounded-[60px] min-w-[60%]">
             <Image
               src="/intro.png"
               alt="Fitts Law Image"
