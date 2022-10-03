@@ -44,6 +44,9 @@ export default function Dnd(props) {
 
   const average = (array) => array.reduce((a, b) => a + b,0) / array.length;
   
+  const round = (value, decimals) => {
+    return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+  };
 
   return (
     <div>
@@ -136,8 +139,8 @@ export default function Dnd(props) {
         </Button>
       </Group>
       <Group style={{position:"fixed",bottom:20}}>
-        <div className="text-xl">Average Time: {average(allTimes)/100} seconds</div>
-        <div className="text-xl">Error Rate: {(errorDrag/totalDrag)*100}%</div>
+        <div className="text-xl">Average Time: {round(average(allTimes)/100,2)||0} seconds</div>
+        <div className="text-xl">Error Rate: {round((errorDrag/totalDrag)*100,2)||0}%</div>
       </Group>
     </div>
   );
