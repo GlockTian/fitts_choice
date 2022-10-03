@@ -79,6 +79,7 @@ export default function Dnd(props) {
             labelAlwaysOn
             value={size}
             onChange={setSize}
+            max = {60}
             className="w-1/2 "
           />
         </div>
@@ -89,6 +90,7 @@ export default function Dnd(props) {
             labelAlwaysOn
             value={position}
             onChange={setPosition}
+            max = {50}
             className="w-1/2 "
           />
         </div>
