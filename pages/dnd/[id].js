@@ -287,7 +287,11 @@ function Dustbin({ onUpdateSelection, size, question }) {
           backgroundColor: isActive ? "LightGreen" : canDrop,
         }}
         className="border-2 border-blue-600"
-        onClick={() => clear()}
+        onClick={() => {
+          setId("");
+          setContent("");
+          onUpdateSelection(-1);
+        }}
       >
         {content === "" ? (
           <div className="flex items-center justify-center w-full h-full text-xs font-bold">
