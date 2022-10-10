@@ -95,8 +95,7 @@ export default function IntroFittsLaw() {
           </div>
         </div>
         <div className="w-4/5 max-w-screen-xl mt-10 text-center text-black">
-          Fitts's law (often cited as Fitts' law) is a predictive model of human
-          movement primarily used in human–computer interaction and ergonomics.
+          {"Fitts's law (often cited as Fitts' law) is a predictive model of human movement primarily used in human–computer interaction and ergonomics."}
           <br />
           The law predicts that{" "}
           <strong>the time required to rapidly move to a target area</strong> is
