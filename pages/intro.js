@@ -2,14 +2,12 @@ import React from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
-import { Switch, Button, Modal, Center } from "@mantine/core";
-import { CircleCheck, Check,X} from "tabler-icons-react";
+import { CircleCheck} from "tabler-icons-react";
 import { useRouter } from "next/router";
 
 export default function IntroFittsLaw() {
+  const router = useRouter();
 
-  const router = useRouter()
-  
   // center point of the target
   const [buttonX, setButtonX] = useState(0);
   const [buttonY, setButtonY] = useState(0);
@@ -21,8 +19,10 @@ export default function IntroFittsLaw() {
 
   useEffect(() => {
     const updateMousePosition = (ev) => {
-      if (typeof window != "undefined" 
-      && window.document.getElementById("element")) {
+      if (
+        typeof window != "undefined" &&
+        window.document.getElementById("element")
+      ) {
         var buttonAttr = window.document
           .getElementById("element")
           .getBoundingClientRect();
@@ -51,34 +51,6 @@ export default function IntroFittsLaw() {
 
   return (
     <div className="bg-white">
-      <Modal
-        centered
-        opened={opened}
-        onClose={() => setOpened(false)}
-        className="content-center"
-      >
-        <Center>
-          <div className="text-xl font-semibold text-center">
-            Are you sure you want to return to the homepage?
-          </div>
-        </Center>
-        <Center>
-          <Button
-            className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white wrap drop-shadow-l primary rounded-2xl center"
-            style={{
-              width: "auto",
-              height: "20%",
-            }}
-            onClick={()=>{ 
-              setOn(false);
-              router.push("/");
-            }}
-            leftIcon={<Check size={20} />}
-          >
-            Yes
-          </Button>
-        </Center>
-      </Modal>
       {/* Page */}
       <main className={styles.main}>
         {/* Card */}
@@ -95,7 +67,9 @@ export default function IntroFittsLaw() {
           </div>
         </div>
         <div className="w-4/5 max-w-screen-xl mt-10 text-center text-black">
-          {"Fitts's law (often cited as Fitts' law) is a predictive model of human movement primarily used in human–computer interaction and ergonomics."}
+          {
+            "Fitts's law (often cited as Fitts' law) is a predictive model of human movement primarily used in human–computer interaction and ergonomics."
+          }
           <br />
           The law predicts that{" "}
           <strong>the time required to rapidly move to a target area</strong> is
@@ -103,57 +77,49 @@ export default function IntroFittsLaw() {
           target and the <strong>width</strong> of the target.
         </div>
         {fittsOn ? (
-          <Button
+          <button
             id="element"
-            className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white truncate drop-shadow-l primary rounded-2xl"
+            className="flex inline-flex items-center justify-center px-4 py-2 pt-5 pb-5 pl-5 pr-5 mt-10 font-bold text-white truncate bg-grey-light hover:bg-grey text-grey-darkest primary drop-shadow-l rounded-2xl"
             style={{
               width: dis / 2.5 + "px",
-              height: dis / 1.5 + "px",
+              height: dis / 2.5 + "px",
               minWidth: "235px",
               minHeight: "90px",
               maxWidth: "55%",
               maxHeight: "300px",
             }}
-            onClick={() => setOpened(true) & setOn(false)}
-            leftIcon={<CircleCheck size={40} />}
+            onClick={()=>{ 
+              setOn(false);
+              router.push("/");
+            }}
           >
-            Understand
-          </Button>
+             <CircleCheck />
+             <span className="ml-3">Understand</span>
+            
+          </button>
         ) : (
-          <Button
-            id="element"
-            className="pt-5 pb-5 pl-5 pr-5 mt-10 text-white truncate drop-shadow-l primary rounded-2xl"
-            style={{
+          <button className="flex inline-flex items-center justify-center px-4 py-2 pt-5 pb-5 pl-5 pr-5 mt-10 font-bold text-white truncate bg-grey-light hover:bg-grey text-grey-darkest primary drop-shadow-l rounded-2xl"
+             style={{
               minWidth: "235px",
               minHeight: "90px",
               maxWidth: "55%",
               maxHeight: "90px",
             }}
-            onClick={() => setOpened(true)}
-            leftIcon={<CircleCheck size={40} />}
-          >
-            Understand
-          </Button>
+            onClick={()=>{ 
+              setOn(false);
+              router.push("/");
+            }}>
+              <CircleCheck />
+             
+              <span className="ml-3">Understand</span>
+            </button>
+
         )}
-        <Switch
-          className="mt-5 italic text-gray-500 "
-          checked={fittsOn}
-          onChange={(event) => setOn(event.currentTarget.checked)}
-          color="indigo"
-          size="lg"
-          onLabel="ON"
-          offLabel="OFF"
-          label={
-            !fittsOn
-              ? "Turn on to see the button size adjustment based on Fitt's Law"
-              : "The further the cursor the bigger the button"
-          }
-        />
+        
       </main>
     </div>
   );
 }
-
 
 function calculateDistance(elemx, elemy, width, height, mouseX, mouseY) {
   var dis = Math.floor(
