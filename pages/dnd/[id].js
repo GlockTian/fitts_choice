@@ -22,7 +22,7 @@ export default function Dnd(props) {
   const [answer, setAnswer] = useState(-1);
   const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
-  const [openedSetting, setOpenedSetting] = useState(false);
+  const [openedSetting, setOpenedSetting] = useState(true);
   const next = "/dnd/" + questions[num].nextId.toString();
 
   const updateSelection = (index, item) => {
