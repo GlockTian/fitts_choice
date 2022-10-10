@@ -19,18 +19,11 @@ export function Navigation({children}) {
   }
 
   return (
-    <AppShell
-      padding="md"
-      header={<Header  height={60} p="xs">
-        <Link href="/"><Button className={navStyle("/")}>Home</Button></Link>
+    <div className='pt-2 pl-2'>
+      <Link href="/"><Button className={navStyle("/")}>Home</Button></Link>
         <Link href="/dnd/0"><Button className={navStyle("/dnd")}>{"Fitts' Choice"}</Button></Link>
         <Link href="/intro"><Button className={navStyle("/intro")}>{"Fitts' Law"}</Button></Link>
-      </Header>}
-      styles={(theme) => ({
-        main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
-      })}
-    >
       { children }
-    </AppShell>
+    </div>
   );
 }
