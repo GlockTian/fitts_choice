@@ -22,7 +22,7 @@ export default function Dnd(props) {
   const [answer, setAnswer] = useState(-1);
   const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
-  const [openedSetting, setOpenedSetting] = useState(false);
+  const [openedSetting, setOpenedSetting] = useState(true);
   const next = "/dnd/" + questions[num].nextId.toString();
 
   const updateSelection = (index, item) => {
@@ -86,9 +86,11 @@ export default function Dnd(props) {
         </div>
       </DndProvider>
 
-      {openedSetting ?<div className="fixed z-10 inset-0 overflow-y-auto ">
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <div className="w-1/2">
+      <Modal
+        opened={openedSetting}
+        onClose={() => setOpenedSetting(false)}
+        title="Setting"
+      >
         <p className="text-sm text-gray-500">
           Experiment with target size and distance!
         </p>
@@ -113,10 +115,7 @@ export default function Dnd(props) {
             className="w-1/2 "
           />
         </div>
-        </div>
-        </div>
-
-      </div>:<></>}
+      </Modal>
 
       <Group position="right">
         <Button
@@ -141,27 +140,6 @@ export default function Dnd(props) {
         </div>
         <div className="text-xl">
           Error Rate: {round((errorDrag / totalDrag) * 100, 2) || 0}%
-        </div>
-        <div className="flex flex-row items-center justify-between gap-5 mt-8">
-          <p className="font-semibold">Target Size</p>
-          <Slider
-            labelAlwaysOn
-            value={size}
-            onChange={setSize}
-            max={60}
-            className="w-1/2 "
-          />
-        </div>
-        {/* tailwind center horizontally and vertically  */}
-        <div className="flex flex-row items-center justify-between gap-5 mt-5">
-          <p className="font-semibold">Target Distance</p>
-          <Slider
-            labelAlwaysOn
-            value={position}
-            onChange={setPosition}
-            max={50}
-            className="w-1/2 "
-          />
         </div>
       </Group>
     </div>
