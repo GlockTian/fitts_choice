@@ -21,7 +21,7 @@ export default function Dnd(props) {
   const [answer, setAnswer] = useState(-1);
   const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
-  const [openedSetting, setOpenedSetting] = useState(true);
+  const [openedSetting, setOpenedSetting] = useState(false);
   const next = "/dnd/" + questions[num].nextId.toString();
 
   const updateSelection = (index, item) => {
@@ -85,37 +85,50 @@ export default function Dnd(props) {
         </div>
       </DndProvider>
 
-      
-      <div
-        // opened={openedSetting}
-        // onClose={() => setOpenedSetting(false)}
-        // title="Setting"
-      >
-        <p className="text-sm text-gray-500">
-          Experiment with target size and distance!
-        </p>
-        <div className="flex flex-row items-center justify-between gap-5 mt-8">
-          <p className="font-semibold">Target Size</p>
-          <input type="number" value={size} onChange={setSize} />
-        </div>
-        {/* tailwind center horizontally and vertically  */}
-        <div className="flex flex-row items-center justify-between gap-5 mt-5">
-          <p className="font-semibold">Target Distance</p>
-          <input type="number" value={position} onChange={setPosition} />
-            {/* labelAlwaysOn
+      {openedSetting && (
+        <div className="absolute fixed z-50 flex items-center justify-center w-[99vw]">
+          <div className="">
+            <div className="relative p-4 bg-white rounded-lg shadow">
+              <div
+              // opened={openedSetting}
+              // onClose={() => setOpenedSetting(false)}
+              // title="Setting"
+              >
+                <button
+                  className="w-full text-gray-500 text-end"
+                  onClick={() => setOpenedSetting(false)}
+                >
+                  x
+                </button>
+                <div className="px-5 pt-1 pb-5">
+                  <h1>Setting</h1>
+                  <p className="text-sm text-gray-500">
+                    Experiment with target size and distance!
+                  </p>
+                  <div className="flex flex-row items-center justify-between gap-5 mt-8">
+                    <p className="font-semibold">Target Size</p>
+                    <input type="number" value={position} onChange={setPosition} />
+                    <input type="range" min="0" max="80" value={size} onChange={(e)=>setSize(e.target.value)} />
+                  </div>
+                  {/* tailwind center horizontally and vertically  */}
+                  <div className="flex flex-row items-center justify-between gap-5 mt-5">
+                    <p className="font-semibold">Target Distance</p>
+                    <input type="range" min="0" max="80" value={position} onChange={(e)=>setPosition(e.target.value)} />
+                    {/* labelAlwaysOn
             value={position}
             onChange={setPosition}
             max={50}
             className="w-1/2 " */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div >
-        <button
-          color="gray"
-          radius="xl"
-          onClick={() => setOpenedSetting(true)}
-        >
+      <div>
+        <button color="gray" radius="xl" onClick={() => setOpenedSetting(true)}>
           <div className="px-2 text-xl text-blue-500">Settings</div>
         </button>
         <button
