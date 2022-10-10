@@ -66,27 +66,22 @@ export default function Dnd(props) {
                     Experiment with target size and distance!
                   </p>
                   <div className="flex flex-row items-center justify-between gap-5 mt-8">
-                    <p className="font-semibold">Target Size</p>
-                    <input
-                      type="number"
-                      value={position}
-                      onChange={setPosition}
-                    />
+                    <p className="font-semibold">Target Size {size}</p>
                     <input
                       type="range"
-                      min="0"
-                      max="80"
+                      min="20"
+                      max="50"
                       value={size}
                       onChange={(e) => setSize(e.target.value)}
                     />
                   </div>
                   {/* tailwind center horizontally and vertically  */}
                   <div className="flex flex-row items-center justify-between gap-5 mt-5">
-                    <p className="font-semibold">Target Distance</p>
+                    <p className="font-semibold">Target Distance {position}</p>
                     <input
                       type="range"
                       min="0"
-                      max="80"
+                      max="60"
                       value={position}
                       onChange={(e) => setPosition(e.target.value)}
                     />

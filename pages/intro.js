@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
-import { Switch, Button, Modal, Center } from "@mantine/core";
 import { CircleCheck } from "tabler-icons-react";
 import { useRouter } from "next/router";
 
