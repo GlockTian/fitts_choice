@@ -1,6 +1,3 @@
-import { Button, Group, Space } from '@mantine/core'
-import Head from 'next/head'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import styles from '../styles/Home.module.css'
 
@@ -12,15 +9,14 @@ export default function Home() {
       {/* create a zoom liked login page */}
       <h1 className={styles.title}>{"Fitts' Choice"}</h1>
       <p className={styles.subtitle}>{"An experiential learning activity for Fitts' Law"}</p>
-      <Space h={40} />
-      <Group position="center">
-        <Button className="primary" radius={20} onClick={() => router.push("/dnd/0")}>Start Now</Button>
-      </Group>
-      <Space h={60}  />
+      
+      <div className="flex flex-col mt-12 items-center justify-center">
+        <button className="primary px-5 py-2 rounded-full " onClick={() => router.push("/dnd/0")}>Start Now</button>
+      </div>
 
-      <Group position="center">
-        <Button variant='outline' radius={20} className="secondary" onClick={() => router.push("/intro")}>{"Learn more about Fitts' Law"}</Button>
-      </Group>
+      <div className="flex flex-col mt-12 items-center justify-center">
+        <button className="secondary px-10 py-5" onClick={() => router.push("/intro")}>{"Learn more about Fitts' Law"}</button>
+      </div>
     </div>
     </div>
 
