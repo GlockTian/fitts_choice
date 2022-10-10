@@ -37,10 +37,12 @@ a {
 
   .text-primary{
     color: #2563EB;
+    font-family:'Readex Pro', sans-serif !important;
   }
 
   .bg-paper{
     background: white !important;
+    font-family:'Readex Pro', sans-serif !important;
   }
 
   .secondary{
