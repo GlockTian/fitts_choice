@@ -86,9 +86,9 @@ export default function Dnd(props) {
       </DndProvider>
 
       {openedSetting && (
-        <div className="absolute z-50 flex items-center justify-center w-[99vw]">
+        <div className="absolute fixed z-50 flex items-center justify-center w-[99vw]">
           <div className="">
-            <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="relative p-4 bg-white rounded-lg shadow">
               <div
               // opened={openedSetting}
               // onClose={() => setOpenedSetting(false)}
@@ -107,16 +107,13 @@ export default function Dnd(props) {
                   </p>
                   <div className="flex flex-row items-center justify-between gap-5 mt-8">
                     <p className="font-semibold">Target Size</p>
-                    <input type="number" value={size} onChange={setSize} />
+                    <input type="number" value={position} onChange={setPosition} />
+                    <input type="range" min="0" max="80" value={size} onChange={(e)=>setSize(e.target.value)} />
                   </div>
                   {/* tailwind center horizontally and vertically  */}
                   <div className="flex flex-row items-center justify-between gap-5 mt-5">
                     <p className="font-semibold">Target Distance</p>
-                    <input
-                      type="number"
-                      value={position}
-                      onChange={setPosition}
-                    />
+                    <input type="range" min="0" max="80" value={position} onChange={(e)=>setPosition(e.target.value)} />
                     {/* labelAlwaysOn
             value={position}
             onChange={setPosition}
