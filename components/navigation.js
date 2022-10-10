@@ -1,4 +1,3 @@
-import { AppShell, Navbar, Header, Button } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -20,9 +19,9 @@ export function Navigation({children}) {
 
   return (
     <div className='pt-2 pl-2'>
-      <Link href="/"><Button className={navStyle("/")}>Home</Button></Link>
-        <Link href="/dnd/0"><Button className={navStyle("/dnd")}>{"Fitts' Choice"}</Button></Link>
-        <Link href="/intro"><Button className={navStyle("/intro")}>{"Fitts' Law"}</Button></Link>
+      <Link href="/"><button className={navStyle("/")}>Home</button></Link>
+        <Link href="/dnd/0"><button className={navStyle("/dnd")}>{"Fitts' Choice"}</button></Link>
+        <Link href="/intro"><button className={navStyle("/intro")}>{"Fitts' Law"}</button></Link>
       { children }
     </div>
   );
