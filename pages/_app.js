@@ -7,12 +7,7 @@ function MyApp({ Component, pageProps }) {
   // create a mantine provider
   return (
     <div>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500&display=swap"
-          rel="stylesheet"
-        ></link>
-      </Head>
+
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
