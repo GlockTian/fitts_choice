@@ -1,5 +1,11 @@
 # fitts_choice
+This is the link to **deployed** app [Fitts' Choice](https://fitts-choice.vercel.app/)
 
+The UAHPEC certicificate is in the file UAHPECcertificates-Group7.pdf
+
+
+
+# about Next.js
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
