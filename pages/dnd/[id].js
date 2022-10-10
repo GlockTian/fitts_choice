@@ -22,7 +22,7 @@ export default function Dnd(props) {
   const [answer, setAnswer] = useState(-1);
   const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
-  const [openedSetting, setOpenedSetting] = useState(true);
+  const [openedSetting, setOpenedSetting] = useState(false);
   const next = "/dnd/" + questions[num].nextId.toString();
 
   const updateSelection = (index, item) => {
@@ -86,11 +86,9 @@ export default function Dnd(props) {
         </div>
       </DndProvider>
 
-      <Modal
-        opened={openedSetting}
-        onClose={() => setOpenedSetting(false)}
-        title="Setting"
-      >
+      {openedSetting ?<div className="fixed z-10 inset-0 overflow-y-auto ">
+        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div className="w-1/2">
         <p className="text-sm text-gray-500">
           Experiment with target size and distance!
         </p>
@@ -115,7 +113,10 @@ export default function Dnd(props) {
             className="w-1/2 "
           />
         </div>
-      </Modal>
+        </div>
+        </div>
+
+      </div>:<></>}
 
       <Group position="right">
         <Button
