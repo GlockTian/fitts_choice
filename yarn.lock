@@ -279,7 +279,7 @@
     "@mantine/ssr" "5.5.4"
     "@mantine/styles" "5.5.4"
 
-"@mantine/ssr@5.5.4":
+"@mantine/ssr@5.5.4", "@mantine/ssr@^5.5.4":
   version "5.5.4"
   resolved "https://registry.yarnpkg.com/@mantine/ssr/-/ssr-5.5.4.tgz#61dbd84ad0bc8927c0d3b868bcb00a51727e4de1"
   integrity sha512-WkT6GkeiFS3DAEWV3vZlOUoRIqJnJHP1TgOioLxWqsCuXI3h3V+AxiOHk4+G1PB4EXwHWdoJgK3UoU91pC2NsQ==
