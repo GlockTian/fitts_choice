@@ -58,7 +58,7 @@ export default function Dnd(props) {
                   className="w-full text-gray-800 text-end"
                   onClick={() => setOpenedSetting(false)}
                 >
-                  x
+                  ✕
                 </button>
                 <div className="px-5 pt-1 pb-5">
                   <h1>Setting</h1>
