@@ -2,6 +2,7 @@ import { MantineProvider } from "@mantine/core";
 import { Navigation } from "../components/navigation";
 import Head from "next/head";
 import "../styles/globals.css";
+import { getCookie, setCookie } from "cookies-next";
 
 function MyApp({ Component, pageProps }) {
   // create a mantine provider
@@ -27,5 +28,9 @@ function MyApp({ Component, pageProps }) {
     </div>
   );
 }
+
+MyApp.getInitialProps = (ctx) => ({
+  colorScheme: getCookie("mantine-color-scheme", ctx) || "light",
+});
 
 export default MyApp;
