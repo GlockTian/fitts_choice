@@ -5,10 +5,6 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   // create a mantine provider
-  useEffect(() => {
-    document.documentElement.style.visibility = "visible";
-  }, []);
-
   return (
     <div>
       <Head>

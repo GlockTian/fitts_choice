@@ -7,7 +7,7 @@ export default class _Document extends Document {
   static getInitialProps = getInitialProps;
   render() {
     return (
-      <Html style={{ visibility: "hidden" }}>
+      <Html>
         <Head />
         <body>
           <Main />
