@@ -141,27 +141,6 @@ export default function Dnd(props) {
         <div className="text-xl">
           Error Rate: {round((errorDrag / totalDrag) * 100, 2) || 0}%
         </div>
-        <div className="flex flex-row items-center justify-between gap-5 mt-8">
-          <p className="font-semibold">Target Size</p>
-          <Slider
-            labelAlwaysOn
-            value={size}
-            onChange={setSize}
-            max={60}
-            className="w-1/2 "
-          />
-        </div>
-        {/* tailwind center horizontally and vertically  */}
-        <div className="flex flex-row items-center justify-between gap-5 mt-5">
-          <p className="font-semibold">Target Distance</p>
-          <Slider
-            labelAlwaysOn
-            value={position}
-            onChange={setPosition}
-            max={50}
-            className="w-1/2 "
-          />
-        </div>
       </Group>
     </div>
   );
