@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
-import { CircleCheck} from "tabler-icons-react";
+import { Switch, Button, Modal, Center } from "@mantine/core";
+import { CircleCheck } from "tabler-icons-react";
 import { useRouter } from "next/router";
 
 export default function IntroFittsLaw() {
@@ -88,34 +89,53 @@ export default function IntroFittsLaw() {
               maxWidth: "55%",
               maxHeight: "300px",
             }}
-            onClick={()=>{ 
+            onClick={() => {
               setOn(false);
               router.push("/");
             }}
           >
-             <CircleCheck />
-             <span className="ml-3">Understand</span>
-            
+            <CircleCheck />
+            <span className="ml-3">Understand</span>
           </button>
         ) : (
-          <button className="flex inline-flex items-center justify-center px-4 py-2 pt-5 pb-5 pl-5 pr-5 mt-10 font-bold text-white truncate bg-grey-light hover:bg-grey text-grey-darkest primary drop-shadow-l rounded-2xl"
-             style={{
+          <button
+            className="flex inline-flex items-center justify-center px-4 py-2 pt-5 pb-5 pl-5 pr-5 mt-10 font-bold text-white truncate bg-grey-light hover:bg-grey text-grey-darkest primary drop-shadow-l rounded-2xl"
+            style={{
               minWidth: "235px",
               minHeight: "90px",
               maxWidth: "55%",
               maxHeight: "90px",
             }}
-            onClick={()=>{ 
+            onClick={() => {
               setOn(false);
               router.push("/");
-            }}>
-              <CircleCheck />
-             
-              <span className="ml-3">Understand</span>
-            </button>
+            }}
+          >
+            <CircleCheck />
 
+            <span className="ml-3">Understand</span>
+          </button>
         )}
-        
+        <div className="mt-5 align-middle form-check">
+          <input
+            className="justify-center float-left w-5 h-5 mt-1 mr-2 align-middle transition duration-200 bg-white bg-center bg-no-repeat bg-contain border border-gray-300 rounded-sm appearance-none cursor-pointer form-check-input checked:bg-blue-600 checked:border-blue-600 focus:outline-none"
+            type="checkbox"
+            value=""
+            id="flexCheckChecked"
+            size="lg"
+            checked={fittsOn}
+            onChange={(event) => setOn(event.currentTarget.checked)}
+          />
+          <label
+            className="justify-center inline-block italic text-gray-500 align-middle form-check-label"
+            htmlFor="flexCheckChecked"
+          >
+            {!fittsOn
+              ? "Turn on to see the button size adjustment based on Fitt's Law"
+              : "The further the cursor the bigger the button"}
+          </label>
+        </div>
+      
       </main>
     </div>
   );
