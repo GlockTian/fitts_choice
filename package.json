@@ -20,6 +20,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.2.0",
+    "react-jss": "^10.9.2",
     "tabler-icons-react": "^1.55.0"
   },
   "devDependencies": {
