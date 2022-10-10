@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { DragPreviewImage, useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Button, Group, Modal, RangeSlider, Slider } from "@mantine/core";
 
 export default function Dnd(props) {
   const router = useRouter();
@@ -86,62 +85,55 @@ export default function Dnd(props) {
         </div>
       </DndProvider>
 
-      <Modal
-        opened={openedSetting}
-        onClose={() => setOpenedSetting(false)}
-        title="Setting"
+      
+      <div
+        // opened={openedSetting}
+        // onClose={() => setOpenedSetting(false)}
+        // title="Setting"
       >
         <p className="text-sm text-gray-500">
           Experiment with target size and distance!
         </p>
         <div className="flex flex-row items-center justify-between gap-5 mt-8">
           <p className="font-semibold">Target Size</p>
-          <Slider
-            labelAlwaysOn
-            value={size}
-            onChange={setSize}
-            max={60}
-            className="w-1/2 "
-          />
+          <input type="number" value={size} onChange={setSize} />
         </div>
         {/* tailwind center horizontally and vertically  */}
         <div className="flex flex-row items-center justify-between gap-5 mt-5">
           <p className="font-semibold">Target Distance</p>
-          <Slider
-            labelAlwaysOn
+          <input type="number" value={position} onChange={setPosition} />
+            {/* labelAlwaysOn
             value={position}
             onChange={setPosition}
             max={50}
-            className="w-1/2 "
-          />
+            className="w-1/2 " */}
         </div>
-      </Modal>
+      </div>
 
-      <Group position="right">
-        <Button
+      <div >
+        <button
           color="gray"
           radius="xl"
-          variant="outline"
           onClick={() => setOpenedSetting(true)}
         >
           <div className="px-2 text-xl text-blue-500">Settings</div>
-        </Button>
-        <Button
+        </button>
+        <button
           radius="xl"
           className="primary"
           onClick={() => router.push(next)}
         >
           Next question!
-        </Button>
-      </Group>
-      <Group style={{ position: "fixed", bottom: 20 }}>
+        </button>
+      </div>
+      <div style={{ position: "fixed", bottom: 20 }}>
         <div className="text-xl">
           Average Time: {round(average(allTimes) / 100, 2) || 0} seconds
         </div>
         <div className="text-xl">
           Error Rate: {round((errorDrag / totalDrag) * 100, 2) || 0}%
         </div>
-      </Group>
+      </div>
     </div>
   );
 }
