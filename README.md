@@ -6,6 +6,8 @@ The UAHPEC certicificate is in the file UAHPECcertificates-Group7.pdf
 
 # Experiment Procedure
 
+We will separate participants to two group: One group will experience edit mode(using the Setting button), the other will not experience edit mode.
+
 Step 1: Adjust the size of the window to ensure all ui elements are visible even with the maximun size and maximun length 
 
 Step 2: Allow the user to read through the Fitts’ law intro page
@@ -23,7 +25,7 @@ For each question, let the user select answers under the following conditions:
 3. Minimun size, Minimun distance
 4. Maximun size, Minimun distance
 
-(NOTE: For Participant who experience the Edit mode, let them adjust the size and distance themselves, for user who don’t experience the Edit mode, we will adjust the size and distance for them)
+(NOTE: For Participant who experience the Edit mode, let them adjust the size and distance themselves through setting button with our instruction, for user who don’t experience the Edit mode, we will adjust the size and distance for them)
 
 Step 5:
 
