@@ -22,7 +22,17 @@ export default function Dnd(props) {
   const [size, setSize] = useState(20);
   const [position, setPosition] = useState(0);
   const [openedSetting, setOpenedSetting] = useState(false);
+
   const next = "/dnd/" + questions[num].nextId.toString();
+
+  const navigateTo = (url) => {
+    if(next !== "/dnd/-1" ){
+      router.push(url)
+    }else{
+      router.push("/")
+    }
+  };
+
 
   const updateSelection = (item, index) => {
     // mocking for answers
@@ -144,7 +154,7 @@ export default function Dnd(props) {
           radius="xl"
           className="px-3 py-2 ml-5 mr-10 rounded-full text-md primary"
           style={{ width: 140 }}
-          onClick={() => router.push(next)}
+          onClick={() => navigateTo(next)}
         >
           Next question!
         </button>
